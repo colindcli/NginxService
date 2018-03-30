@@ -1,5 +1,8 @@
 ﻿using System;
+
+#if DEBUG
 using System.Diagnostics;
+#endif
 
 namespace NginxService
 {
@@ -9,6 +12,10 @@ namespace NginxService
 
         public void Start()
         {
+#if DEBUG
+            Debugger.Launch();
+#endif
+
             Stop();
             StartMasterProcess();
             AssertNginxWasStarted();
@@ -24,8 +31,11 @@ namespace NginxService
 
         private void StartMasterProcess()
         {
-            _nginxProcess = new NginxMasterProcess();
-            _nginxProcess.StartMasterProcess();
+            if (_nginxProcess == null)
+            {
+                _nginxProcess = new NginxMasterProcess();
+                _nginxProcess.StartMasterProcess();
+            }
         }
 
         private void AssertNginxWasStarted()

@@ -12,9 +12,19 @@ namespace NginxService
         {
             if (_nginxProcess == null)
             {
-                _nginxProcess = new Process();
-                _nginxProcess.StartInfo.FileName = _nginxExeLocator.GetNginxExePath();
-                _nginxProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = _nginxExeLocator.GetNginxExePath(),
+                    WorkingDirectory = _nginxExeLocator.GetCurrentExecutingDirectory(),
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false
+                };
+
+                _nginxProcess = new Process
+                {
+                    StartInfo = startInfo
+                };
+                
                 _nginxProcess.Start();
             }
         }
