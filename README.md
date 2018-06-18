@@ -6,7 +6,7 @@ Service wrapper that allows you to run nginx.exe as a service on Windows.
 Requirements
 ---------------
 
-.NET 4.0+
+.NET 4.7+
 
 Usage
 ---------------
