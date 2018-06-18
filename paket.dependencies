@@ -1,0 +1,4 @@
+source https://api.nuget.org/v3/index.json
+
+nuget NuGet.CommandLine
+nuget Topshelf >= 4.0.3 restriction: >= net47

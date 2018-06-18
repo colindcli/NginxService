@@ -35,8 +35,9 @@
 [Oo]bj
 *.Cache
 
-# NuGet packages folder, we're using NuGet without committing packages to git
+# NuGet packages folder
 packages/
+paket-files/
 
 # Backup & report files from converting an old project file to a newer one
 _UpgradeReport_Files/
