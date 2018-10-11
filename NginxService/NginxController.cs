@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 #if DEBUG
 using System.Diagnostics;
@@ -43,7 +44,7 @@ namespace NginxService
             Execute.UntilTrueOrTimeout(_nginxProcess.IsRunning, 10, TimeSpan.FromMilliseconds(250));
             if (!_nginxProcess.IsRunning())
             {
-                throw new Exception("Failed to start the nginx process");
+                throw new FileNotFoundException(string.Format("Failed to start the nginx process, nginx.pid file not found in {0}", _nginxProcess.GetNginxPidPath()));
             }
         }
     }

@@ -45,5 +45,10 @@ namespace NginxService
         {
             return File.Exists(_nginxExeLocator.GetNginxPidPath());
         }
+
+        public string GetNginxPidPath()
+        {
+            return _nginxExeLocator.GetNginxPidPath();
+        }
     }
 }
