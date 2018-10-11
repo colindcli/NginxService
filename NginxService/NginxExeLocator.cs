@@ -27,7 +27,7 @@ namespace NginxService
         /// <returns>The full path to nginx.pid</returns>
         public string GetNginxPidPath()
         {
-            return Path.Combine(GetCurrentExecutingDirectory(), "logs\\nginx.pid");
+            return Path.Combine(GetCurrentExecutingDirectory(), "nginx.pid");
         }
 
         /// <summary>
