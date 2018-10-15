@@ -21,16 +21,6 @@ namespace NginxService
         }
 
         /// <summary>
-        /// Gets the full path to the nginx.pid file. Assumes this service executable is
-        /// in the same directory as nginx.exe
-        /// </summary>
-        /// <returns>The full path to nginx.pid</returns>
-        public string GetNginxPidPath()
-        {
-            return Path.Combine(GetCurrentExecutingDirectory(), "logs\\nginx.pid");
-        }
-
-        /// <summary>
         /// Gets the current assemblies current location (pre-shadow copy).
         /// </summary>
         /// <remarks>
