@@ -47,7 +47,7 @@ namespace NginxService
             Execute.UntilTrueOrTimeout(_nginxProcess.IsRunning, 10, TimeSpan.FromMilliseconds(250));
             if (!_nginxProcess.IsRunning())
             {
-                throw new FileNotFoundException("Failed to start the nginx process.");
+                throw new Exception("Failed to start the nginx process.");
             }
         }
 
@@ -66,17 +66,12 @@ namespace NginxService
             }
 
             // kill it
-            var service = Process.GetProcessesByName("nginxservice").FirstOrDefault();
-            if (service != null)
+            using (var service = Process.GetProcessesByName("nginxservice").FirstOrDefault())
             {
-                try
+                if (service != null)
                 {
                     service.Kill();
                     service.WaitForExit();
-                }
-                finally
-                {
-                    service.Dispose();
                 }
             }
         }
