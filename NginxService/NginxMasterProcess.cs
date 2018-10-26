@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 
 namespace NginxService
 {
@@ -8,6 +7,9 @@ namespace NginxService
         private readonly NginxExeLocator _nginxExeLocator = new NginxExeLocator();
         private Process _nginxProcess;
 
+        /// <summary>
+        /// Starts nginx if the process is not running
+        /// </summary>
         public void StartMasterProcess()
         {
             if (_nginxProcess == null)
@@ -29,6 +31,9 @@ namespace NginxService
             }
         }
 
+        /// <summary>
+        /// Stops nginx if the process is running
+        /// </summary>
         public void StopMasterProcess()
         {
             var signalProcess = new NginxSignalProcess();
@@ -41,14 +46,14 @@ namespace NginxService
             }
         }
 
+        /// <summary>
+        /// Checks to see if nginx is running as a process
+        /// </summary>
+        /// <returns></returns>
         public bool IsRunning()
         {
-            return File.Exists(_nginxExeLocator.GetNginxPidPath());
-        }
-
-        public string GetNginxPidPath()
-        {
-            return _nginxExeLocator.GetNginxPidPath();
+            var processes = Process.GetProcessesByName("nginx");
+            return processes.Length > 0;
         }
     }
 }

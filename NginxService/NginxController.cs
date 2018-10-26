@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 #if DEBUG
 using System.Diagnostics;
@@ -20,6 +22,7 @@ namespace NginxService
             Stop();
             StartMasterProcess();
             AssertNginxWasStarted();
+            HeartBeatCheck();
         }
 
         public void Stop()
@@ -44,7 +47,32 @@ namespace NginxService
             Execute.UntilTrueOrTimeout(_nginxProcess.IsRunning, 10, TimeSpan.FromMilliseconds(250));
             if (!_nginxProcess.IsRunning())
             {
-                throw new FileNotFoundException(string.Format("Failed to start the nginx process, nginx.pid file not found in {0}", _nginxProcess.GetNginxPidPath()));
+                throw new Exception("Failed to start the nginx process.");
+            }
+        }
+
+        private void HeartBeatCheck(int wait = 0)
+        {
+            if (wait > 0)
+            {
+                System.Threading.Thread.Sleep(wait);
+            }
+
+            if (_nginxProcess.IsRunning())
+            {
+                // queue another heartbeat check
+                System.Threading.Tasks.Task.Run(() => HeartBeatCheck(1000));
+                return;
+            }
+
+            // kill it
+            using (var service = Process.GetProcessesByName("nginxservice").FirstOrDefault())
+            {
+                if (service != null)
+                {
+                    service.Kill();
+                    service.WaitForExit();
+                }
             }
         }
     }
